@@ -19,7 +19,7 @@ public class TripsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
     {
-        var trips = await _context.Trips
+        var trips = await _context.Trip
             .OrderByDescending(t => t.DateFrom)
             .ToListAsync(); 
 

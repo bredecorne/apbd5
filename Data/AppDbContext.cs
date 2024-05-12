@@ -7,5 +7,11 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Trip> Trips { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Trip>()
+            .HasKey(t => t.IdTrip);
+    }
+
+    public DbSet<Trip> Trip { get; set; }
 }
