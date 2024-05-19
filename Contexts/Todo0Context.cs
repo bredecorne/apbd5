@@ -13,24 +13,15 @@ public partial class Todo0Context : DbContext
         : base(options)
     {
     }
-
-    public virtual DbSet<Animal> Animals { get; set; }
-
+    
     public virtual DbSet<Client> Clients { get; set; }
 
     public virtual DbSet<ClientTrip> ClientTrips { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
-
-    public virtual DbSet<Order> Orders { get; set; }
-
-    public virtual DbSet<Product> Products { get; set; }
-
-    public virtual DbSet<ProductWarehouse> ProductWarehouses { get; set; }
-
+    
     public virtual DbSet<Trip> Trips { get; set; }
 
-    public virtual DbSet<Warehouse> Warehouses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -38,15 +29,6 @@ public partial class Todo0Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Animal>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.Property(e => e.Area).HasMaxLength(200);
-            entity.Property(e => e.Category).HasMaxLength(200);
-            entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.Name).HasMaxLength(200);
-        });
 
         modelBuilder.Entity<Client>(entity =>
         {
@@ -108,65 +90,6 @@ public partial class Todo0Context : DbContext
                     });
         });
 
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.HasKey(e => e.IdOrder).HasName("PRIMARY");
-
-            entity.ToTable("Order");
-
-            entity.HasIndex(e => e.IdProduct, "Receipt_Product");
-
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.FulfilledAt).HasColumnType("datetime");
-
-            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.IdProduct)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Receipt_Product");
-        });
-
-        modelBuilder.Entity<Product>(entity =>
-        {
-            entity.HasKey(e => e.IdProduct).HasName("PRIMARY");
-
-            entity.ToTable("Product");
-
-            entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.Name).HasMaxLength(200);
-            entity.Property(e => e.Price).HasPrecision(25);
-        });
-
-        modelBuilder.Entity<ProductWarehouse>(entity =>
-        {
-            entity.HasKey(e => e.IdProductWarehouse).HasName("PRIMARY");
-
-            entity.ToTable("Product_Warehouse");
-
-            entity.HasIndex(e => e.IdOrder, "Product_Warehouse_Order");
-
-            entity.HasIndex(e => e.IdProduct, "_Product");
-
-            entity.HasIndex(e => e.IdWarehouse, "_Warehouse");
-
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.Price).HasPrecision(25);
-
-            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.ProductWarehouses)
-                .HasForeignKey(d => d.IdOrder)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Product_Warehouse_Order");
-
-            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.ProductWarehouses)
-                .HasForeignKey(d => d.IdProduct)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("_Product");
-
-            entity.HasOne(d => d.IdWarehouseNavigation).WithMany(p => p.ProductWarehouses)
-                .HasForeignKey(d => d.IdWarehouse)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("_Warehouse");
-        });
-
         modelBuilder.Entity<Trip>(entity =>
         {
             entity.HasKey(e => e.IdTrip).HasName("PRIMARY");
@@ -178,17 +101,6 @@ public partial class Todo0Context : DbContext
             entity.Property(e => e.Description).HasMaxLength(220);
             entity.Property(e => e.Name).HasMaxLength(120);
         });
-
-        modelBuilder.Entity<Warehouse>(entity =>
-        {
-            entity.HasKey(e => e.IdWarehouse).HasName("PRIMARY");
-
-            entity.ToTable("Warehouse");
-
-            entity.Property(e => e.Address).HasMaxLength(200);
-            entity.Property(e => e.Name).HasMaxLength(200);
-        });
-
         OnModelCreatingPartial(modelBuilder);
     }
 
