@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Zadanie7.Data;
+using Zadanie7.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<Todo0Context>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("Default") ?? throw new InvalidOperationException())
 );
 

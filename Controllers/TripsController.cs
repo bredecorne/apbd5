@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Zadanie7.Data; // Dodaj odniesienie do kontekstu bazy danych
+using Zadanie7.Contexts;
 using Zadanie7.Models;
 
 namespace Zadanie7.Controllers;
@@ -9,9 +9,9 @@ namespace Zadanie7.Controllers;
 [ApiController]
 public class TripsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly Todo0Context _context;
 
-    public TripsController(AppDbContext context)
+    public TripsController(Todo0Context context)
     {
         _context = context;
     }
@@ -19,7 +19,7 @@ public class TripsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
     {
-        var trips = await _context.Trip
+        var trips = await _context.Trips
             .OrderByDescending(t => t.DateFrom)
             .ToListAsync(); 
 
