@@ -14,6 +14,10 @@ builder.Services.AddDbContext<Todo0Context>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("Default") ?? throw new InvalidOperationException())
 );
 
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
