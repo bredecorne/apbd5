@@ -20,9 +20,9 @@ public class TripsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
     {
         var trips = await _context.Trips
-            .Include(t => t.ClientTrips) // Wczytanie powiązań ClientTrip
-            .ThenInclude(ct => ct.IdClientNavigation) // Wczytanie obiektów Client
-            .Include(t => t.IdCountries) // Wczytanie powiązań Country
+            .Include(t => t.ClientTrips)
+            .ThenInclude(ct => ct.IdClientNavigation)
+            .Include(t => t.IdCountries)
             .OrderByDescending(t => t.DateFrom)
             .ToListAsync();
 
